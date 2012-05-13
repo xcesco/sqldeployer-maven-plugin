@@ -1,9 +1,0 @@
-Main class 
-org.hsqldb.Server
-
-Arguments
--database.0 junkdatabase -dbname.0 junkdb
-
-Working dir junkdb
-
-Aggiungere al classpath la lib hsqldb
