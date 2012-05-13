@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>test-case1</groupId>
+	<artifactId>test-case1</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>test1</name>
+
+	<!-- ******************************************************************* 
+		Gestione del repository SubVersion. Serve al continuum per reperire il repository 
+		dei sorgenti ******************************************************************* -->
+	<scm>
+		<connection>
+			scm:svn:http://svn.prova.it/pluto/trunk
+		</connection>
+		<developerConnection>
+			scm:svn:http://svn.prova.it/pluto/trunk
+		</developerConnection>
+	</scm>
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<compileSourceRoots>
+						<compileSourceRoot>${basedir}\target\test-classes\unit\compiler-basic-test\src\main\java</compileSourceRoot>
+					</compileSourceRoots>
+					<compilerId>javac</compilerId>
+					<debug>true</debug>
+					<outputDirectory>${basedir}\target\test-classes\</outputDirectory>
+					<buildDirectory>${basedir}\target\test-classes\</buildDirectory>
+					<projectArtifact
+						implementation="org.apache.maven.plugins.testing.stubs.StubArtifact" />
+
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.arsenico</groupId>
+				<artifactId>sqldeployer</artifactId>
+				<version>1.0.0</version>
+				<configuration> 
+					<sqlDirectory>${basedir}\src\test\resources\test-case1\src\main\sql</sqlDirectory>
+					<fileNameFilter>dev*.sql</fileNameFilter>
+					<ignoredErrors>42501,42509</ignoredErrors>
+					<databaseUrl>jdbc:hsqldb:mem:testdb;shutdown=false</databaseUrl>
+					<databaseUser>sa</databaseUser>
+					<databasePwd></databasePwd>
+					<databaseType>hsqldb</databaseType>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.hsqldb</groupId>
+						<artifactId>hsqldb-j5</artifactId>
+						<version>2.2.4</version>
+						<type>jar</type>
+						<scope>compile</scope>
+					</dependency>
+				</dependencies>
+			</plugin>
+			
+		</plugins>
+	</build>
+	<dependencies>
+
+	</dependencies>
+</project>

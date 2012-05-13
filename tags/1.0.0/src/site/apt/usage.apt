@@ -1,0 +1,118 @@
+Usage
+
+	Di seguito e' riportato un esempio di come il plugin puo' essere utilizzato.
+
+ 	Il plugin puo' essere agganciato ad una qualunque fase di build. Per convenienza,
+ 	si e' scelto di legarla alla fase di <<prepare-package>>.
+ 	
+ 	Per collegarsi alla base dati bisogna definire come dipendenza del plugin il 
+ 	<jar> contentente i driver jdbc da utilizzare.
+
+
++-------------------------------+
+
+<project>
+  [...]
+  <build>
+    [...]
+    <plugins>
+      [...]
+      
+      <!-- Plugin per l'esecuzione di codice sql prima del deploy -->
+      <plugin>
+		 <groupId>org.xcesco</groupId>
+		 <artifactId>sqldeployer</artifactId>
+		 <version>1.0.0</version>
+		 <executions>
+			<execution>
+				<phase>prepare-package</phase>
+				<goals>
+					<goal>sqldeploy</goal>
+				</goals>
+			</execution>
+		 </executions>
+		 <configuration>
+			<goals>sqldeploy</goals>
+
+			<fileNameFilter>dev*.sql</fileNameFilter>
+			<ignoredErrors>ORA-00942, ORA-01438</ignoredErrors>
+			<databaseUrl>jdbc:oracle:thin:@127.0.0.1:1573:ORACLE10</databaseUrl>
+			<databaseUser>USERNAME</databaseUser>
+			<databasePwd>PASSWORD</databasePwd>
+			<databaseType>oracle10</databaseType>
+			
+		 </configuration>
+		 
+		 <!-- Driver jdbc utilizzato per collegarsi alla base dati. -->
+		 <dependencies>
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>11.2.0.1.0</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+		 </dependencies>
+		</plugin>
+                
+      [...]
+    </plugins>
+    [...]
+  </build>
+  [...]
+</project>
+
+
++-------------------------------+
+
+
+Configurazione
+
+	Esistono diversi parametri di configurazione per modificare il comportamento del plugin. Di seguito sono
+riportati con annessa spiegazione.
+
+
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+||Nome           ||Descrizione                                                                                       ||Valore di default         ||Tipo di parametro |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| buildNumber    | Indica il numero di build che si sta eseguendo. Normalmente non occorre specificare direttamente  | $\{buildNumber\}          |OPZIONALE          |
+|                | questo parametro in quanto la variabile <buildNumber> viene valorizzata direttamente dal plugin   |                           |                   |
+|                | buildnumber-maven-plugin (group org.codehaus.mojo).                                               |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| svnUrl         | Indica l'url del repository svn dal quale si sta effettuando la build. Normalmente tale parametro |$\{project.scm.connection\}|OPZIONALE          |
+|                | viene ricavato automaticamente dal plugin.                                                        |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| version        | Indica il numero di versione che si sta costruendo. Normalmente tale parametro viene ricavato     | $\{project.version\}      |OPZIONALE          |
+|                | direttamente dal plugin.                                                                          |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| sqlDirectory   | Rappresenta la cartella nella quale si trovano i file sql da eseguire. Di default la cartella     | src/main/sql/             |OPZIONALE          |
+|                | e' <src/main/sql>.                                                                                |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| fileNameFilter | Rappresenta il tipo di filtro da applicare ai nomi dei file trovati nella cartella <sqlDirectory> | *.sql                     |<<OBBLIGATORIO>>   |
+|                | per vedere quali elaborare e quali no. Il carattere * sta per 'qualiasi carattere'.               |                           |                   |
+|                | Mettere da esempio <dev*.sql> equivale a dire: qualunque file il cui nome inizia con dev e termina|                           |                   |
+|                | con .sql.                                                                                         |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| ignoredErrors  | rapprsenta gli errori sql che possono essere considerati come NON BLOCCANTI per l'esecuzione del  | src/main/sql/             |OPZIONALE          |
+|                | plugin. E' una lista di valori i cui elementi sono separati da virgole. Se i singoli elementi     |                           |                   |
+|                | sono numeri, verranno interpretati come codici d'errore sql generici. Se non sono semplici numeri |                           |                   |
+|                | verranno interpretati come errori specifici del database.                                         |                           |                   |
+|                | Ad esempio, per il database ORACLE, per specificare degli errori specifici del database si potra' |                           |                   |
+|                | mettere: ORA-00942, ORA-01438.                                                                    |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| databaseUrl    | Indica l'url del database.                                                                        |                           |<<OBBLIGATORIO>>   |
+|                |                                                                                                   |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| databaseUser   | User per accedere al database.                                                                    |                           |<<OBBLIGATORIO>>   |
+|                |                                                                                                   |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| databasePwd    | Password per accedere al database.                                                                |                           |<<OBBLIGATORIO>>   |
+|                |                                                                                                   |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+| databaseType   | Indica il tipo di database al quale ci si vuole connettere. Attualmente sono supportati i seguenti|  oracle10                 |<<OBBLIGATORIO>>   |
+|                | valori: oracle8, oracle9, oracle10, hsqldb.                                                       |                           |                   |
+*----------------+---------------------------------------------------------------------------------------------------+---------------------------+-------------------+
+
+
+
+
