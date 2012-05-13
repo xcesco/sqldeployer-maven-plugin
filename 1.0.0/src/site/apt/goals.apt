@@ -1,0 +1,22 @@
+Plugin documentation
+
+  Goal disponibili per il plugin:
+	
+*-----------+-------------------------------------------------------------------------------------------------+
+||Goal      ||Descrizione                                                                                     |
+*-----------+-------------------------------------------------------------------------------------------------+
+| sqldeploy |  si connette alla base dati specificata nella configurazione del plugin e se non esiste crea    |
+|           |  la tabella <<MAVEN_SQL_LOG>> e, nel caso di database oracle il sequence <<MAVEN_SQL_LOG_SEQ>>. |
+|           |  Una volta fatto questo vengono analizzati i file sql definiti sempre mediante configurazione.  |
+|           |  Tutti i file analizzati con successo vengono registrati nella tabella creata in precedenza.    |
+|           |  Nel caso di errore SQL, se quest'ultimo e' stato inserito tra gli errori da ignorare, il plugin|
+|           |  prosegue l'esecuzione inserendo nel log il fatto che si e' verificato un errore.               |
+|           |  Nel caso di errore non ignorabile, il plugin termina con errore e di fatto bloccando l'intera  |
+|           |  procedura di build.                                                                            |
+*-----------+-------------------------------------------------------------------------------------------------+
+| list      |  si connette alla base dati specificata nella configurazione del plugin e visualizza i file che |
+|           |  attualmente sono stati gia' analizzati. Per ogni file visualizza su standard out le informazioni|
+|           |  relative all'ora e il nome del file stesso.   |
+*-----------+-------------------------------------------------------------------------------------------------+
+
+
