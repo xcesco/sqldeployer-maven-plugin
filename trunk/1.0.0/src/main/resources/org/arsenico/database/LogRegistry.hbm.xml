@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.arsenico.database">
+  <class name="LogRegistry" table="MAVEN_SQL_LOG">
+  
+    <id name="id">    
+      <generator class="native">
+      	<param name="sequence">MAVEN_SQL_LOG_SEQ</param>
+      </generator>
+    </id>
+       
+    <property name="fileName"	column="FILE_NAME"	not-null="true" unique="true"/>
+    <property name="directory"	column="DIRECTORY"	length="512"/>
+    <property name="insertDate" column="INSERT_DATE"	not-null="true" />
+    <property name="messages"	column="MESSAGES"		type="text"/>
+    
+    <property name="svnUrl"		column="SVN_URL"		length="512"/>
+    <property name="version"							length="64"/>
+    <property name="buildNumber" column="BUILD_NUMBER"	length="64"/>    	
+    <property name="errors" 	column="ERRORS"			/>
+  </class>
+</hibernate-mapping>
