@@ -12,7 +12,11 @@
 	Con eclipse il sistema è stato testato con maven 2 
 	 -->
 
-	<build>
+  <scm>
+  	<connection>https://sqldeployer-maven-plugin.googlecode.com/svn/trunk</connection>
+  	<url>https://sqldeployer-maven-plugin.googlecode.com/svn/trunk</url>
+  </scm>
+  <build>
 		<plugins>
 
 			<!-- Plugin per la release -->
@@ -173,6 +177,7 @@
 	<properties>
 		<!-- Se true disabilita i test -->
 		<skipTests>false</skipTests>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<!-- Elenco degli sviluppatori -->
