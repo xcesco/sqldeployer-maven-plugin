@@ -1,0 +1,1 @@
+Maven plugin for deploy sql code on a database. Operation on database will be logged in a table of target database.
